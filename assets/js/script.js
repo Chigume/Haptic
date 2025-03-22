@@ -10,7 +10,7 @@ Last change:    00/00/00
 
 	"use strict";
 
-	var Haptic = {
+	var Placement = {
 		init: function() {
 			this.Basic.init();  
 		},
@@ -25,7 +25,7 @@ Last change:    00/00/00
 				this.MobileMenu();
 				this.scrollTop();
 				this.counterUp();
-				this.HapticAnimation();
+				this.PlacementAnimation();
 				this.TitleAnimation();
 				this.TwinMax();
 				this.HomeThreeSliderSwiper();
@@ -252,7 +252,7 @@ Last change:    00/00/00
 					}
 				});
 			},
-			HapticAnimation: function (){
+			PlacementAnimation: function (){
 				gsap.registerPlugin(ScrollTrigger, ScrollSmoother, TweenMax, ScrollToPlugin);
 				gsap.config({
 					nullTargetWarn: false,
@@ -1247,7 +1247,7 @@ Last change:    00/00/00
 		}
 	}
 	jQuery(document).ready(function (){
-		Haptic.init();
+		Placement.init();
 	});
 
 })();
