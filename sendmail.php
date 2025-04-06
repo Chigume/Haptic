@@ -1,31 +1,29 @@
 <?php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = filter_var(trim($_POST["Email"]), FILTER_SANITIZE_EMAIL);
+    $phone = htmlspecialchars(trim($_POST["phone"]));
+    $subject = htmlspecialchars(trim($_POST["subject"]));
+    $message = htmlspecialchars(trim($_POST["message"]));
 
-// Define some constants
-define( "RECIPIENT_NAME", "John Doe" );
-define( "RECIPIENT_EMAIL", "example@gmail.com" ); //write your mail here
+    $to = "abgirlchigume@gmail.com"; // 🔁 CHANGE to your real email
+    $email_subject = "New message from your website: $subject";
+    $email_body = "You have received a new message:\n\n".
+                  "Name: $name\n".
+                  "Email: $email\n".
+                  "Phone: $phone\n".
+                  "Subject: $subject\n".
+                  "Message:\n$message";
 
-// Read the form values
-$success = false;
-$userName = isset( $_POST['name'] ) ? preg_replace( "/[^\s\S\.\-\_\@a-zA-Z0-9]/", "", $_POST['name'] ) : "";
-$senderEmail = isset( $_POST['Email'] ) ? preg_replace( "/[^\.\-\_\@a-zA-Z0-9]/", "", $_POST['Email'] ) : "";
-$senderPhone = isset( $_POST['phone'] ) ? preg_replace( "/[^\.\-\_\@a-zA-Z0-9]/", "", $_POST['phone'] ) : "";
-$userSubject = isset( $_POST['subject'] ) ? preg_replace( "/[^\s\S\.\-\_\@a-zA-Z0-9]/", "", $_POST['subject'] ) : "";
-$message = isset( $_POST['message'] ) ? preg_replace( "/(From:|To:|BCC:|CC:|Subject:|Content-Type:)/", "", $_POST['message'] ) : "";
+    $headers = "From: $email\r\n";
+    $headers .= "Reply-To: $email\r\n";
 
-// If all values exist, send the email
-if ( $userName && $senderEmail && $senderPhone && $userSubject && $message) {
-  $recipient = RECIPIENT_NAME . " <" . RECIPIENT_EMAIL . ">";
-  $headers = "From: " . $userName . "";
-  $msgBody = " Email: ". $senderEmail . " Phone: ". $senderPhone . " Subject: ". $userSubject . " Message: " . $message . "";
-  $success = mail( $recipient, $headers, $msgBody );
-
-  //Set Location After Successsfull Submission
-  header('Location: contact.html?message=Successfull');
+    if (mail($to, $email_subject, $email_body, $headers)) {
+        echo "<h3>✅ Message sent successfully!</h3>";
+    } else {
+        echo "<h3>❌ Failed to send message. Please try again.</h3>";
+    }
+} else {
+    echo "<h3>Invalid request.</h3>";
 }
-
-else{
-	//Set Location After Unsuccesssfull Submission
-  	header('Location: 404.html?message=Failed');	
-}
-
 ?>
